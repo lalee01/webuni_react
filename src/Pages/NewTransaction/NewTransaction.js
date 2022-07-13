@@ -4,8 +4,10 @@ import {TextField} from 'formik-mui'
 import { AXIOS_METHOD , doApiCall} from "./../../Hooks/UseApi"
 import { useParams } from 'react-router-dom'
 
-function NewTransaction() {
-  
+function NewTransaction({refreshNotify}) {
+
+  /// sx={{ p:2, '&:last-child': { pb: 2 }}}
+
   const {id} = useParams()
 
   return ( 
@@ -15,6 +17,7 @@ function NewTransaction() {
       doApiCall(AXIOS_METHOD.PUT, '/transactions', (data) => {
           console.log(data)
           setSubmitting(false);
+          refreshNotify()
       }, (apiError) => {
         console.log(apiError)
           setFieldError('title', apiError);
@@ -22,13 +25,20 @@ function NewTransaction() {
       },{wallet_id:id , ...value});
       }}>
       <Form>
-        <Card elevation={4} sx={{mb:1}}>
+        <Card elevation={4} >
           <CardContent >
-            <Grid container spacing={1} >
+            <Grid container spacing={1} sx={{ p:1, '&:last-child': { pb: 0 }}} alignItems='center'>
               <Grid item xs={12} md={6} >
-                <Field type="text" placeholder="Title" name="title" component={TextField} label="Title" fullWidth />
+                <Field 
+                type="text" 
+                placeholder="Title" 
+                name="title" 
+                component={TextField} 
+                label="Title"
+                size="medium" 
+                fullWidth />
               </Grid>
-              <Grid item xs={12} md={2} > 
+              <Grid item xs={12} md={3} > 
                 <Field type="number" placeholder="Amount" name="amount" component={TextField} label="Amount" fullWidth />
               </Grid>
               <Grid item xs={12} md={3}>

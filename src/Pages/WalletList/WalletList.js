@@ -1,24 +1,22 @@
 import { Grid } from '@mui/material'
-import { useEffect, useState } from 'react';
 import NewWallet from '../NewWallet/NewWallet';
 import OneWallet from '../OneWallet/OneWallet';
-import { AXIOS_METHOD , doApiCall} from "./../../Hooks/UseApi"
+import { AXIOS_METHOD , useApi } from "./../../Hooks/UseApi"
 
 function WalletList() {
+   const [wallets , _loading , _error , refreshWallets] = useApi(AXIOS_METHOD.GET, '/wallets')
 
-  const [wallets , setWallets] = useState([])
-
-  useEffect(()=>{
-    doApiCall(AXIOS_METHOD.GET, '/wallets', (data) => {
-      setWallets(data)
-    })
-  },[])
 
   return ( 
         <Grid container spacing={2}>
-          {wallets?.map((item , id)=> 
+          {wallets && wallets?.map((item , id)=> 
             <Grid item xs={12} md={4}>
-              <OneWallet name={item.name} balance={item.balance} id={item.id}/>
+              <OneWallet 
+              name={item.name} 
+              balance={item.balance} 
+              id={item.id}
+              onDeleteNotify={refreshWallets}
+              />
             </Grid>
           )}
           <Grid item xs={12} md={4}>

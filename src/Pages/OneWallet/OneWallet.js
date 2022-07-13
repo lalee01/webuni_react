@@ -3,13 +3,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from "react-router-dom";
 import { AXIOS_METHOD , doApiCall} from "./../../Hooks/UseApi"
 
-function OneWallet({name , balance , id}) {
+function OneWallet({name , balance , id , onDeleteNotify}) {
 
     const navigate = useNavigate()
 
     const walletDelete = () =>{
         doApiCall(AXIOS_METHOD.DELETE, `/wallet/${id}`, (data) => {
             console.log(data)
+            onDeleteNotify()
         }, (apiError) => {
             console.log(apiError)
         },[])

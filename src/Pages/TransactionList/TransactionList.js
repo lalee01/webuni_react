@@ -9,26 +9,35 @@ function TransactionList() {
 
     const {id} = useParams()
     const [transaction , setTransaction] = useState([])
+    const [needRefresh , setNeedRefresh] = useState(0)
 
-  useEffect(()=>{
-    doApiCall(AXIOS_METHOD.POST, '/transactions', (data) => {
-        setTransaction(data)
-        console.log(transaction)
-    }, (apiError) => {
-        console.log(apiError)
-    }, {wallet_id:id});
-  },[])
+    const refreshNotify = () =>{
+        setNeedRefresh(e=> e + 1)
+        console.log(needRefresh)
+    }
+    
+    const deleteTransaction = (e) =>{
+      doApiCall(AXIOS_METHOD.DELETE, `/transaction/${e.target.id}`, (data) => {
+         refreshNotify()
+          console.log(data)
+      })
+    }
 
-  const deleteTransaction = (e) =>{
-    doApiCall(AXIOS_METHOD.DELETE, `/transaction/${e.target.id}`, (data) => {
-        console.log(data)
-    })
-  }
+
+    useEffect(()=>{
+        doApiCall(AXIOS_METHOD.POST, '/transactions', (data) => {
+            setTransaction(data)
+            console.log(transaction)
+        }, (apiError) => {
+            console.log(apiError)
+        }, {wallet_id:id});
+    },[needRefresh])
+
 
   return (
       <Grid container spacing={2} sx={{mt:1}}>
         <Grid item xs={12}>
-            <NewTransaction />
+            <NewTransaction refreshNotify={refreshNotify}/>
         </Grid>
         {transaction?.transactions?.map((item)=>
             <Grid item xs={12}>
