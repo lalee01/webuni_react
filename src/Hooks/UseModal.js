@@ -1,6 +1,7 @@
 import React, {useCallback, useContext, useState} from 'react';
 import LoginModal from ".././Modals/LoginModal";
 import RegModal from ".././Modals/RegModal";
+import AddAccessModal from '../Modals/AddAccesModal';
 
 const ModalContext = React.createContext();
 ModalContext.displayName = 'ModalContext';
@@ -9,6 +10,7 @@ export const MODALS = {
     'NONE': 'NONE',
     'LOGIN': 'LOGIN',
     'REG': 'REG',
+    'ACCESS' : 'ACCESS'
 };
 
 export function Modals() {
@@ -21,6 +23,8 @@ export function Modals() {
                         return <LoginModal onClose={onClose} {...context.modalProps}/>;
                     case MODALS.REG:
                         return <RegModal onClose={onClose} {...context.modalProps}/>;
+                    case MODALS.ACCESS:
+                        return <AddAccessModal onClose={onClose} {...context.modalProps}/>;
                     case MODALS.NONE:
                     default:
                         return null;

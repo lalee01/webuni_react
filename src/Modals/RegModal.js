@@ -19,9 +19,7 @@ export default function RegModal({onClose}) {
                             setFieldError('name', apiError);
                             setSubmitting(false);
                         };
-
-                        doApiCall(AXIOS_METHOD.POST, '/reg', (data) => {
-                            console.log(data)
+                        doApiCall(AXIOS_METHOD.POST, '/reg', (_unusedData) => {
                             doApiCall(AXIOS_METHOD.POST, '/login', (data) => {
                                 handleLoginResult(data);
                                 setSubmitting(false);

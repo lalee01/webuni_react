@@ -1,7 +1,7 @@
 import axios from "axios";
 import {useCallback, useEffect, useState} from "react";
 
-const BASE_URL = 'https://wallet.webuni.workers.dev';
+const BASE_URL = 'https://wallet.laleedev01.workers.dev';
 export const AXIOS_METHOD = {
     'GET': 'GET',
     'POST': 'POST',

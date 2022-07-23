@@ -3,14 +3,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from "react-router-dom";
 import { AXIOS_METHOD , doApiCall} from "./../../Hooks/UseApi"
 
-function OneWallet({name , balance , id , onDeleteNotify}) {
+function OneWallet({name , balance , id , refreshNotify }) {
 
     const navigate = useNavigate()
 
     const walletDelete = () =>{
         doApiCall(AXIOS_METHOD.DELETE, `/wallet/${id}`, (data) => {
-            console.log(data)
-            onDeleteNotify()
+            refreshNotify()
         }, (apiError) => {
             console.log(apiError)
         },[])
@@ -27,14 +26,14 @@ function OneWallet({name , balance , id , onDeleteNotify}) {
             </Typography>
         </CardContent>
         <CardActions >
-        <Grid container spacing={2}>
-            <Grid item xs={6}>
-            <Button variant="contained" fullWidth onClick={() => {navigate(`/wallet/${id}`)}}>More...</Button>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <Button variant="contained" fullWidth onClick={() => {navigate(`/wallet/${id}`)}}>More...</Button>
+                </Grid>
+                <Grid item xs={6} textAlign="center" >
+                    <Button variant="contained" color="error" fullWidth onClick={walletDelete} ><DeleteIcon /> </Button>
+                </Grid>
             </Grid>
-            <Grid item xs={6} textAlign="center" >
-            <Button variant="contained" color="error" fullWidth startIcon={<DeleteIcon />} onClick={walletDelete} />
-            </Grid>
-        </Grid>
         </CardActions>
     </Card>
   );
